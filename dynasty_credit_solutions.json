@@ -1,1 +1,17 @@
-[REDACTED]
+{
+  "project": "Dynasty Credit Solutions",
+  "description": "Trust-first credit repair workflows with dispute tracking and Stripe test billing.",
+  "theme": {
+    "palette": { "primary": "#1E4D91", "secondary": "#2E8B57", "accent": "#F5F5F5" },
+    "typography": { "heading": "Inter", "body": "Inter" }
+  },
+  "frontend": { "framework": "Next.js", "ui": "Tailwind", "pages": ["Home", "Pricing", "ClientPortal", "CheckoutSuccess"] },
+  "integrations": { "stripe": { "mode": "test", "plans": ["credit_basic", "credit_premium"] } },
+  "automations": {
+    "credit_dispute_updates": {
+      "schedule": "*/30 * * * *",
+      "actions": ["fetch_bureau_status", "update_records", "notify_clients"]
+    }
+  },
+  "webhooks": { "stripe": ["invoice.paid", "customer.subscription.created"] }
+}
