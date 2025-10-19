@@ -1,5 +1,4 @@
 name: Deploy Lovable Project (Credit)
-
 on:
   push:
     branches: [ main ]
@@ -7,33 +6,26 @@ on:
       - dynasty_credit_solutions.json
       - .github/workflows/lovable-deploy.yml
   workflow_dispatch:
-
 concurrency:
   group: lovable-deploy-credit
   cancel-in-progress: true
-
 permissions:
   contents: read
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Verify blueprint
         run: test -f dynasty_credit_solutions.json
-
       - name: Install Lovable CLI
-        run: npm i -g @lovable/cli
-
+        run: npm install -g next-lovable
       - name: Deploy to Lovable (no API key required)
         run: |
           set -euo pipefail
-          lovable --version
-          lovable deploy --blueprint ./dynasty_credit_solutions.json | tee deploy.log
-
+          next-lovable --version
+          next-lovable deploy --blueprint ./dynasty_credit_solutions.json | tee deploy.log
       - name: Upload deploy log artifact
         uses: actions/upload-artifact@v4
         with:
